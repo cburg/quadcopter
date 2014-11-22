@@ -1,0 +1,129 @@
+===============================================================================
+Quadcopter TODO
+===============================================================================
+
+Phase 1:
+--------
+	[X] Import Mbed library from Github
+	[X] Get basic Makefile to Compile blinky test program.
+	[X] Test that the blinky test program works
+	[X] Begin Importing from UWB-Quadcopter on Github
+	[X] Set up directory structure
+
+
+Phase 2:
+--------
+	[X] Flatten Out Mbed Library
+		[X] MCU Target
+		[ ] Makefile Compilation
+	[X] Get Serial Working (and efficiently)
+		- Look at pin mapping for the Nucleo
+		- Do I need to jump cables from the main board to the breakoff board?
+		- Do I need to use the USBSerial library? (I hope not!)
+	[ ] Get LED's Working
+    [ ] Get Button Presses Working
+	[ ] Get Sonars Working
+	[X] Get Servos Working
+	[ ] Get Gyro/Accel Working
+	[ ] Get Speed Controller / Brushless motor working
+    [ ] Start Looking at Designing a Custom PCB
+    	- Can I get information from STM?
+
+
+Phase 3:
+--------
+	[ ] Robust Positioning System
+		[ ] Kalman Filter
+			[ ] Euler Orientation
+			[ ] Quaternion Orientation
+		[ ] Low-pass Filter (Complementary Filter)
+			[ ] Euler Orientation
+			[ ] Quaternion Orientation
+	[ ] Basic PID Filter
+		[ ] Needs to Store N Previous positioning measurements
+		[ ] Needs to Store N Previous Motor Commands (maybe, not 100% sure)
+	[ ] Rudimentary control mechanism to control base motor speed
+
+
+Phase 4:
+--------
+	[ ] Buy quadcopter motors
+	[ ] Buy quadcopter speed controllers
+	[ ] Buy quadcopter frame
+	[ ] Mount board and IMU to quadcopter frame
+	[ ] Get quadcopter hovering (using rudimentary control mechanism)
+
+
+Phase 5:
+--------
+	[ ] Add more complex control mechanism
+		[ ] Bluetooth?
+		[ ] PS3 Controller?
+		[ ] Lift off
+		[ ] Strafe left / right
+		[ ] Move forward and back
+		[ ] Turn left / right
+	[ ] Get quadcopter to move appropriately
+		[ ] Calibrate any variables
+		[ ] Set maximum values for safety
+
+
+Phase 6:
+--------
+	[ ] Integrate Sonar's into quadcopter frame
+	[ ] Get quadcopter to lift off and move to altitude
+	[ ] Quadcopter should avoid being touched (should move out of way)
+
+
+Phase 7:
+--------
+	[ ] Integrate bluetooth
+	[ ] Integrate Wifi
+	[ ] Integrate IR receivers
+
+
+Phase 8:
+--------
+	[ ] Make computer (wifi) based control system
+
+
+Phase 9:
+--------
+	[ ] 
+
+
+
+Unsorted:
+---------
+	[ ] Integrate Tegra K1 Board  / System Design
+		[ ] Communication with K1
+			- WiFi?
+			- Bluetooth LE?
+			- SPI?
+			- I2C?
+			- Serial?
+			- If wireless, encrypted? (Probably)
+		[ ] Debug Serial via Serial Cable to USB
+		[ ] Capture, process, and output computer vision data
+		[ ] Power supply
+			- Minimum of 1 hour of flight
+			- Easy battery swap out
+			- Lightweight
+		[ ] Long range communication
+		[ ] Capture diagnostic information
+		[ ] Testing
+			- Test each module
+			- Try to automate it as much as possible
+		[ ] Multiple Microcontrollers?
+			- How much should be moved to just being on main CPU?
+				- Path Planning?
+				- Path Following?
+		[ ] 
+	[ ] Print Custom Circuit Board
+	[ ] Add a high definition camera
+	[ ] Use a raspberry pi on the board itself?
+
+	[ ] Replace Mbed API and HAL to make NASA JPL C Standards Compliant
+		[ ] Make JPL C Standards Compliant
+		[ ] Make MISRA Compliant
+		[ ] Try to keep the API (expand on it where necessary)
