@@ -16,16 +16,16 @@ TARGET := GCC_ARM
 
 # Add any new directories here. Any .c, .cpp, or .s files within the directory
 # will be compiled by default.
-DIRS =	mbed_flat/api \
-		mbed_flat/cmsis_common \
-		mbed_flat/common \
-		mbed_flat/hal \
-		mbed_flat/targets/$(MCU)/hal \
-		mbed_flat/targets/$(MCU)/cmsis \
+DIRS =	mbed/api \
+		mbed/cmsis_common \
+		mbed/common \
+		mbed/hal \
+		mbed/targets/$(MCU)/hal \
+		mbed/targets/$(MCU)/cmsis \
 		quadcopter/libraries/servo \
 		quadcopter/libraries/sonars
 
-TOOLCHAIN_DIR = mbed_flat/targets/$(MCU)/cmsis/TOOLCHAIN_GCC_ARM
+TOOLCHAIN_DIR = mbed/targets/$(MCU)/cmsis/TOOLCHAIN_GCC_ARM
 
 ################################################################################
 # Build flags and tools
