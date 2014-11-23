@@ -22,7 +22,7 @@ int main() {
         }
 
             ms.move_to_angle(60);
-            ms.move_to_anle(120);
+            ms.move_to_angle(120);
 
         for (i = 120; i >= 0; i -= 5) {
             ms.move_to_angle(i);
