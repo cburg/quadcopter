@@ -23,7 +23,8 @@ DIRS =	mbed/api \
 		mbed/targets/$(MCU)/hal \
 		mbed/targets/$(MCU)/cmsis \
 		quadcopter/libraries/servo \
-		quadcopter/libraries/sonars
+		quadcopter/libraries/sonars \
+		quadcopter/libraries/imu
 
 TOOLCHAIN_DIR = mbed/targets/$(MCU)/cmsis/TOOLCHAIN_GCC_ARM
 
