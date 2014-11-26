@@ -7,8 +7,6 @@
 Mpu6050Imu::Mpu6050Imu(PinName sda, PinName scl) :
     _i2c(sda, scl) {
 
-    //_i2c.frequency(400000);
-
     // Write to Power Register
     char power_on[2] = {POWER_SETTING, 0x00};
     _i2c.write((MPU_6050_SLAVE_ADDR<<1), power_on, 2);
@@ -16,18 +14,14 @@ Mpu6050Imu::Mpu6050Imu(PinName sda, PinName scl) :
 }
 
 
-uint16_t Mpu6050Imu::read_mpu_6050_register(uint8_t reg) {
-    // Write the register address we are interested in
-    _i2c.write((MPU_6050_SLAVE_ADDR<<1), (const char*)&reg, 1);
+void Mpu6050Imu::set_sensitivity(MpuSensitivity_t gyro, MpuSensitivity_t accel) {
+    
+    uint8_t gyro_sens[2] = {GYRO_CONFIG, SET_FS_SEL(gyro)};
+    uint8_t accel_sens[2] = {ACCEL_CONFIG, SET_AFS_SEL(accel)};
 
-    // Read the reply
-    uint16_t reg_val = 0x0000;
-    _i2c.read((MPU_6050_SLAVE_ADDR<<1), (char*)&reg_val, 1);
-
-    return (reg_val & 0x00FF); 
+    _i2c.write((MPU_6050_SLAVE_ADDR<<1), (const char*)gyro_sens, 2);
+    _i2c.write((MPU_6050_SLAVE_ADDR<<1), (const char*)accel_sens, 2);
 }
-
-
 
 void Mpu6050Imu::read_raw(int16_t *accel_x, int16_t *accel_y, int16_t *accel_z,
              int16_t *gyro_x,  int16_t *gyro_y,  int16_t *gyro_z) {
@@ -52,5 +46,4 @@ void Mpu6050Imu::read_raw(int16_t *accel_x, int16_t *accel_y, int16_t *accel_z,
     *gyro_x = ((rawdata[4] & 0x00FF) << 8) | ((rawdata[4] & 0xFF00) >> 8);
     *gyro_y = ((rawdata[5] & 0x00FF) << 8) | ((rawdata[5] & 0xFF00) >> 8);
     *gyro_z = ((rawdata[6] & 0x00FF) << 8) | ((rawdata[6] & 0xFF00) >> 8);
-    
 }
