@@ -15,23 +15,59 @@ Phase 2:
 --------
 	[X] Flatten Out Mbed Library
 		[X] MCU Target
-		[ ] Makefile Compilation
+		[X] Makefile Compilation
 	[X] Get Serial Working (and efficiently)
 		- Look at pin mapping for the Nucleo
 		- Do I need to jump cables from the main board to the breakoff board?
 		- Do I need to use the USBSerial library? (I hope not!)
 	[ ] Get LED's Working
     [ ] Get Button Presses Working
-	[ ] Get Sonars Working
+	[X] Get Sonars Working
+		[X] Get something basic working in main.cpp
+		[X] Create Class
+		[X] Add sliding window averager to the signal
+	[ ] Fix / Clean Up Mbed Library
+		[ ] Remove Use of Malloc In Serial Class
+		[ ] Add Float, Int, Long, Hex, Char, etc. outputs to Serial class
+		[ ] Fix typing in Timer Class (uint32_t to int, and uint64_t to uint32_t)
+		[X] Look at how they have interrupts set up
+			[X] Callbacks, data pointers needed by the callback
+			[x] Do they use a table? If so, would this waste space?
+				- Yes, they do use a table, with pre-defined callback routines
+		[X] Investigate How Many GPIO Interrupts We Can Have (7 it seems)
+			- So, whereas 
+	[ ] Create System Clock
+		[ ] Use Timer class?
+		[ ] Use ticker C api?
+		[ ] Use SysTick directly?
 	[X] Get Servos Working
 	[ ] Get Gyro/Accel Working
+		[X] Get Raw Data
+		[ ] Update to burst reads
+		[ ] Create better container for values
+		[ ] Add Scaling Interface
+		[ ] Document the Class / Functions
 	[ ] Get Speed Controller / Brushless motor working
-    [ ] Start Looking at Designing a Custom PCB
-    	- Can I get information from STM?
-
+    [X] Start Looking at Designing a Custom PCB
+    	[X] Can I get information from STM?
+    		- Yes, yes you can! (And you already have it :-) )
 
 Phase 3:
 --------
+	[ ] Investigate Different Code Stuffs
+		[ ] Convert Everything from C++ --> C (yes, including the Mbed API), check code size and speed.
+		[ ] 
+	[ ] Add Notes to the Github Wiki
+		- Changes to Mbed
+		- Notes on Interrupts (how many we can have, maps to pins not banks, etc.)
+		- Links to Mbed Site
+		- Links to STMicro PDF's (regarding this chip)
+		- Notes on Game Loops / Event Loops (link to the article)
+		- Add TODO list to main page
+		- Add notes on I2C (w.r.t accelerometer)
+	[ ] Add a scheduler?
+		[ ] How to add from interrupt service routines?
+	[ ] Add an event loop?
 	[ ] Robust Positioning System
 		[ ] Kalman Filter
 			[ ] Euler Orientation
@@ -43,6 +79,10 @@ Phase 3:
 		[ ] Needs to Store N Previous positioning measurements
 		[ ] Needs to Store N Previous Motor Commands (maybe, not 100% sure)
 	[ ] Rudimentary control mechanism to control base motor speed
+		[ ] Potentiometer?
+		[ ] Buttons connected to GPIO pins?
+		[ ] IR Receiver?
+		[ ] 
 
 
 Phase 4:
