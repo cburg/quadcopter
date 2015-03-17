@@ -35,19 +35,19 @@ Phase 2:
 			[x] Do they use a table? If so, would this waste space?
 				- Yes, they do use a table, with pre-defined callback routines
 		[X] Investigate How Many GPIO Interrupts We Can Have (7 it seems)
-			- So, whereas 
+			- So, whereas
 	[ ] Create System Clock
 		[ ] Use Timer class?
 		[ ] Use ticker C api?
 		[ ] Use SysTick directly?
 	[X] Get Servos Working
-	[ ] Get Gyro/Accel Working
+	[X] Get Gyro/Accel Working
 		[X] Get Raw Data
-		[ ] Update to burst reads
+		[X] Update to burst reads
 		[ ] Create better container for values
 		[ ] Add Scaling Interface
 		[ ] Document the Class / Functions
-	[ ] Get Speed Controller / Brushless motor working
+	[X] Get Speed Controller / Brushless motor working
     [X] Start Looking at Designing a Custom PCB
     	[X] Can I get information from STM?
     		- Yes, yes you can! (And you already have it :-) )
