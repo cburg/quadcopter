@@ -25,7 +25,9 @@ DIRS =	mbed/api \
 		quadcopter/libraries/servo \
 		quadcopter/libraries/sonars \
 		quadcopter/libraries/imu \
-		quadcopter/libraries/led
+		quadcopter/libraries/led \
+		quadcopter/libraries/system_clock \
+		quadcopter/modules/orientation
 
 TOOLCHAIN_DIR = mbed/targets/$(MCU)/cmsis/TOOLCHAIN_GCC_ARM
 
