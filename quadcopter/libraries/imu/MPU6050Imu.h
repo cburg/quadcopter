@@ -45,7 +45,7 @@ using namespace mbed;
 
 
 // Used by filters to scale values to a common base unit (degrees/sec for gyro
-// and g for the accelerometer)
+// and acceleration due to earths gravity for the accelerometer)
 #define MAX_SHORT_POS   ((float)32767)
 #define MIN_SHORT_NEG   ((float)32768)
 
@@ -54,15 +54,15 @@ using namespace mbed;
 #define GYRO_RESOLUTION_SENS_2  ((float)1000.0)
 #define GYRO_RESOLUTION_SENS_3  ((float)2000.0)
 
-#define GYRO_SCALE_SENS_0_POS   (GYRO_RESOLUTION_SENS_0 / MAX_SHORT_POS)
-#define GYRO_SCALE_SENS_1_POS   (GYRO_RESOLUTION_SENS_1 / MAX_SHORT_POS)
-#define GYRO_SCALE_SENS_2_POS   (GYRO_RESOLUTION_SENS_2 / MAX_SHORT_POS)
-#define GYRO_SCALE_SENS_3_POS   (GYRO_RESOLUTION_SENS_3 / MAX_SHORT_POS)
+#define GYRO_SCALE_SENS_0_POS   (MAX_SHORT_POS / GYRO_RESOLUTION_SENS_0)
+#define GYRO_SCALE_SENS_1_POS   (MAX_SHORT_POS / GYRO_RESOLUTION_SENS_1)
+#define GYRO_SCALE_SENS_2_POS   (MAX_SHORT_POS / GYRO_RESOLUTION_SENS_2)
+#define GYRO_SCALE_SENS_3_POS   (MAX_SHORT_POS / GYRO_RESOLUTION_SENS_3)
 
-#define GYRO_SCALE_SENS_0_NEG   (GYRO_RESOLUTION_SENS_0 / MAX_SHORT_NEG)
-#define GYRO_SCALE_SENS_1_NEG   (GYRO_RESOLUTION_SENS_1 / MAX_SHORT_NEG)
-#define GYRO_SCALE_SENS_2_NEG   (GYRO_RESOLUTION_SENS_2 / MAX_SHORT_NEG)
-#define GYRO_SCALE_SENS_3_NEG   (GYRO_RESOLUTION_SENS_3 / MAX_SHORT_NEG)
+#define GYRO_SCALE_SENS_0_NEG   (MIN_SHORT_NEG / GYRO_RESOLUTION_SENS_0)
+#define GYRO_SCALE_SENS_1_NEG   (MIN_SHORT_NEG / GYRO_RESOLUTION_SENS_1)
+#define GYRO_SCALE_SENS_2_NEG   (MIN_SHORT_NEG / GYRO_RESOLUTION_SENS_2)
+#define GYRO_SCALE_SENS_3_NEG   (MIN_SHORT_NEG / GYRO_RESOLUTION_SENS_3)
 
 
 #define ACCEL_RESOLUTION_SENS_0  ((float)2.0)
@@ -70,21 +70,21 @@ using namespace mbed;
 #define ACCEL_RESOLUTION_SENS_2  ((float)8.0)
 #define ACCEL_RESOLUTION_SENS_3  ((float)16.0)
 
-#define ACCEL_SCALE_SENS_0_POS   (ACCEL_RESOLUTION_SENS_0 / MAX_SHORT_POS)
-#define ACCEL_SCALE_SENS_1_POS   (ACCEL_RESOLUTION_SENS_1 / MAX_SHORT_POS)
-#define ACCEL_SCALE_SENS_2_POS   (ACCEL_RESOLUTION_SENS_2 / MAX_SHORT_POS)
-#define ACCEL_SCALE_SENS_3_POS   (ACCEL_RESOLUTION_SENS_3 / MAX_SHORT_POS)
+#define ACCEL_SCALE_SENS_0_POS   (MAX_SHORT_POS / ACCEL_RESOLUTION_SENS_0)
+#define ACCEL_SCALE_SENS_1_POS   (MAX_SHORT_POS / ACCEL_RESOLUTION_SENS_1)
+#define ACCEL_SCALE_SENS_2_POS   (MAX_SHORT_POS / ACCEL_RESOLUTION_SENS_2)
+#define ACCEL_SCALE_SENS_3_POS   (MAX_SHORT_POS / ACCEL_RESOLUTION_SENS_3)
 
-#define ACCEL_SCALE_SENS_0_NEG   (ACCEL_RESOLUTION_SENS_0 / MAX_SHORT_NEG)
-#define ACCEL_SCALE_SENS_1_NEG   (ACCEL_RESOLUTION_SENS_1 / MAX_SHORT_NEG)
-#define ACCEL_SCALE_SENS_2_NEG   (ACCEL_RESOLUTION_SENS_2 / MAX_SHORT_NEG)
-#define ACCEL_SCALE_SENS_3_NEG   (ACCEL_RESOLUTION_SENS_3 / MAX_SHORT_NEG)
+#define ACCEL_SCALE_SENS_0_NEG   (MIN_SHORT_NEG / ACCEL_RESOLUTION_SENS_0)
+#define ACCEL_SCALE_SENS_1_NEG   (MIN_SHORT_NEG / ACCEL_RESOLUTION_SENS_1)
+#define ACCEL_SCALE_SENS_2_NEG   (MIN_SHORT_NEG / ACCEL_RESOLUTION_SENS_2)
+#define ACCEL_SCALE_SENS_3_NEG   (MIN_SHORT_NEG / ACCEL_RESOLUTION_SENS_3)
 
 
 
 // Used to set the sensitivity of the gyro (FS_SEL) and accelerometer (AFS_SEL)
-#define SET_FS_SEL(x)   ((0x03 & x) << 3)
-#define SET_AFS_SEL(x)   ((0x03 & x) << 3)
+#define SET_FS_SEL(x)   (((uint8_t)0x03 & x) << (uint8_t)3)
+#define SET_AFS_SEL(x)   (((uint8_t)0x03 & x) << (uint8_t)3)
 
 
 typedef enum {
@@ -93,6 +93,17 @@ typedef enum {
     Sensitivity_2 = 2,
     Sensitivity_3 = 3  // Least Sensitive (largest range)
 } MpuSensitivity_t;
+
+// Accelerometer: g -- units of earths gravity
+// Gyrocscope: degrees / second
+typedef struct imu_raw_data {
+    float accel_x;
+    float accel_y;
+    float accel_z;
+    float gyro_x;
+    float gyro_y;
+    float gyro_z;
+} imu_data_t;
 
 /** 
  */
@@ -111,12 +122,15 @@ public:
 
     /** 
      */
-    void read_raw(int16_t *accel_x, int16_t *accel_y, int16_t *accel_z,
-                  int16_t *gyro_x,  int16_t *gyro_y,  int16_t *gyro_z);
+    void read_raw(imu_data_t *raw_data);
 
 protected:
 
     I2C _i2c;
+    float _accel_scale_pos; // scaling factor used to get raw values to g
+    float _accel_scale_neg;
+    float _gyro_scale_pos;  // scaling factor used to get raw values to deg/sec
+    float _gyro_scale_neg;
 };
 
 #endif //MPU_6050_IMU_H
